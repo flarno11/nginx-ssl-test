@@ -15,6 +15,6 @@ EXPOSE 8443
 
 VOLUME /var/lib/nginx/tmp
 
-USER 100
+USER 100  # needs to be numeric for Kubernetes runAsNonRoot to work
 
 CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx.conf"]
