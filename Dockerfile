@@ -11,8 +11,11 @@ EXPOSE 8443
 
 VOLUME /var/lib/nginx/tmp
 
-RUN useradd --system --uid 100 --gid 100 containeruser  # the group 'users' with id 100 already exists
+# the group 'users' with id 100 already exists
+RUN useradd --system --uid 100 --gid 100 containeruser
 RUN chown -R containeruser:users /var/lib/nginx
-USER 100  # needs to be numeric for Kubernetes runAsNonRoot to work
+
+# needs to be numeric for Kubernetes runAsNonRoot to work
+USER 100
 
 CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx.conf"]
