@@ -10,8 +10,8 @@ ADD nginx.conf /etc/nginx.conf
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
-EXPOSE 8080
-EXPOSE 8443
+EXPOSE 80
+EXPOSE 443
 
 VOLUME /var/lib/nginx/tmp
 
