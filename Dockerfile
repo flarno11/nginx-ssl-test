@@ -6,16 +6,17 @@ RUN openssl req -x509 -newkey rsa:4086 -subj "/C=XX/ST=XXXX/L=XXXX/O=XXXX/CN=loc
 
 ADD nginx.conf /etc/nginx.conf
 
+# default logfile is used before the config is read
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
+
 EXPOSE 8080
 EXPOSE 8443
 
 VOLUME /var/lib/nginx/tmp
 
-# the group 'users' with id 100 already exists
-RUN useradd --system --uid 100 --gid 100 containeruser
-RUN chown -R containeruser:users /var/lib/nginx
-
 # needs to be numeric for Kubernetes runAsNonRoot to work
-USER 100
+# 999: UID of nginx user
+USER 999
 
 CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx.conf"]
